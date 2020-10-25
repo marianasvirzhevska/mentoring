@@ -6,7 +6,28 @@
         "prettier"
     ],
     "rules": {
-        "no-unused-expressions": "warn"
+        "no-unused-expressions": "error",
+        "@typescript-eslint/indent": ["error", 2, {
+            "SwitchCase": 1,
+            "CallExpression": {"arguments": "first"},
+            "FunctionExpression": {"parameters": "first"},
+            "FunctionDeclaration": {"parameters": "first"}
+          }],
+          "@typescript-eslint/no-explicit-any": "off",
+          "@typescript-eslint/explicit-function-return-type": "off",
+          "@typescript-eslint/no-parameter-properties": "off",
+          "@typescript-eslint/no-object-literal-type-assertion": "off",
+          "@typescript-eslint/camelcase": "off",
+          "@typescript-eslint/member-delimiter-style": [
+              "error",
+              {
+                  "singleline": {
+                      "delimiter": "semi",
+                      "requireLast": true
+                  }
+              }
+          ],
+          "@typescript-eslint/no-empty-function": ["error", { "allow": ["constructors"] }]
     },
     "env": {
         "es6": true,

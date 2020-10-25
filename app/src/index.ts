@@ -1,6 +1,6 @@
 import './index.scss';
 
 window.onload = function() {
-    const root = document.getElementById('root');
-    root.innerText = 'Hello World!';
+  const root = document.getElementById('root');
+  root.innerText = 'Hello World!';
 };
