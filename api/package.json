@@ -12,8 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/marianasvirzhevska/mentoring.git",
-    "precommit": "lint-staged"
+    "url": "git+https://github.com/marianasvirzhevska/mentoring.git"
   },
   "keywords": [
     "Node.JS",
@@ -57,5 +56,10 @@
       "eslint --fix",
       "git add"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   }
 }
