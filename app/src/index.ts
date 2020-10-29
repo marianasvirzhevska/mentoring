@@ -1,6 +1,9 @@
 import './index.scss';
 
-window.onload = function() {
-  const root = document.getElementById('root');
-  root.innerText = 'Hello World!';
-};
+function printHelloWorld(): void {
+  const greeting = document.createTextNode('Hello World!');
+
+  document.body.appendChild(greeting);
+}
+
+printHelloWorld();
