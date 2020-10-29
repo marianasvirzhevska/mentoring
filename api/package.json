@@ -4,11 +4,11 @@
   "description": "Simple node server example with typescript and pre-commit hooks.",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.ts",
+    "start": "npm run build:live",
     "test": "jest",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "build": "tsc"
+    "build": "tsc",
+    "build:live": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' index.ts"
   },
   "repository": {
     "type": "git",
@@ -59,7 +59,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "lint-staged",
+      "pre-push": "npm run test"
     }
   }
 }

@@ -9,9 +9,9 @@
       "eslint:recommended",
       "plugin:@typescript-eslint/recommended",
       "plugin:unicorn/recommended",
+      "prettier/@typescript-eslint",
       "plugin:prettier/recommended",
-      "prettier",
-      "prettier/@typescript-eslint"
+      "prettier"
     ],
     "plugins": [
       "@typescript-eslint",
