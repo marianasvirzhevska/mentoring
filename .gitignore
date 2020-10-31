@@ -1,0 +1,17 @@
+coverage
+build
+node_modules
+
+# testing
+/coverage
+
+# Cruft
+.DS_Store
+npm-debug.log
+.idea/
+.github
+.git
+
+# production
+/build
+
