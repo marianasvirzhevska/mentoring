@@ -3,6 +3,10 @@
   "compilerOptions": {
     "baseUrl": "./",
     "outDir": "build",                          /* Redirect output structure to the directory. */
-    "rootDir": "./",
+    "rootDir": "./"
+  },
+  "typedocOptions": {
+    "mode": "modules",
+    "out": "docs"
   }
 }
