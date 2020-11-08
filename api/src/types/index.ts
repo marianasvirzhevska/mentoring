@@ -1,10 +1,10 @@
 import {
-  IAchievement,
-  IActualTask,
-  IArchiveItem,
-  IChallenge,
-  IStatus,
-  ITask,
+  Achievement,
+  ActualTask,
+  ArchiveItem,
+  Challenge,
+  Status,
+  Task,
 } from '../interfaces';
 
 /**
@@ -14,7 +14,7 @@ import {
  * @returns IActualTask which provides information about a task and its current status
  * in scope of the challenge
  */
-export type getCurrentTask = (challengeId: string) => IActualTask;
+export type getCurrentTask = (challengeId: string) => ActualTask;
 
 /**
  * Returns a list of actual achievements by the
@@ -23,14 +23,14 @@ export type getCurrentTask = (challengeId: string) => IActualTask;
  * @returns IAchievement which provides information about an
  * achievement and its current status in scope of the challenge
  */
-export type getAchievements = (challengeId: string) => IAchievement[];
+export type getAchievements = (challengeId: string) => Achievement[];
 
 /**
  * Returns all past tasks with their results by the challenge id
  * @param challengeId id of past challenge
  * @returns list of all past tasks
  */
-export type getTaskArchive = (challengeId: string) => IArchiveItem[];
+export type getTaskArchive = (challengeId: string) => ArchiveItem[];
 
 /**
  * Returns a new challenge using the following parameters
@@ -41,11 +41,11 @@ export type getTaskArchive = (challengeId: string) => IArchiveItem[];
  * @returns new Challenge object
  */
 export type startNewChallenge = (
-  tasks: ITask[],
-  challenges: IChallenge[],
+  tasks: Task[],
+  challenges: Challenge[],
   duration: number,
   achievements: number,
-) => IChallenge;
+) => Challenge;
 
 /**
  * Returns achievements status for the challenge by its achievements list
@@ -55,6 +55,6 @@ export type startNewChallenge = (
  * @returns achievements status
  */
 export type calculateAchievementsStatus = (
-  achievements: IAchievement[],
-  tasksStatus: IStatus,
-) => IStatus;
+  achievements: Achievement[],
+  tasksStatus: Status,
+) => Status;

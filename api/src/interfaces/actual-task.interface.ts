@@ -1,6 +1,6 @@
-import { ITask } from './task.interface';
-import { IStatus } from './status.interface';
+import { Task } from './task.interface';
+import { Status } from './status.interface';
 
-export interface IActualTask extends ITask {
-  status: IStatus;
+export interface ActualTask extends Task {
+  status: Status;
 }

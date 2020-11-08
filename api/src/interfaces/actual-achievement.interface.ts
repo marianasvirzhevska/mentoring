@@ -1,3 +1,3 @@
-import { IAchievement } from './achievement.interface';
+import { Achievement } from './achievement.interface';
 
-export type IActualAchievement = Omit<IAchievement, 'checkComplete'>;
+export type ActualAchievement = Omit<Achievement, 'checkComplete'>;

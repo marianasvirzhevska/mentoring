@@ -1,12 +1,12 @@
-import { ITask } from './task.interface';
-import { IStatus } from './status.interface';
+import { Task } from './task.interface';
+import { Status } from './status.interface';
 import { ChallengeState } from '../constants';
 
-export interface IChallenge {
+export interface Challenge {
   id: string;
   state: ChallengeState;
   startDate: Date;
-  tasksOrder: ITask[];
-  tasksStatus: IStatus;
-  achievementsStatus: IStatus;
+  tasksOrder: Task[];
+  tasksStatus: Status;
+  achievementsStatus: Status;
 }
