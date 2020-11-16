@@ -1,8 +1,4 @@
-import { 
-  getDayOfChallenge,
-  getCurrentTask,
-  getTaskArchive,
-} from '../api';
+import { getDayOfChallenge, getCurrentTask, getTaskArchive } from '../api';
 import { StatusState } from '../constants';
 import { challengesList } from './test.mocks/data.mocks';
 
@@ -40,7 +36,11 @@ describe('getCurrentTask - main functionality', () => {
   test('Should return null if there is no challenge with that id', () => {
     const currentChallenge = '2';
     const currentDate = new Date('November 8, 2020 00:00:00');
-    const result = getCurrentTask(currentChallenge, challengesList, currentDate);
+    const result = getCurrentTask(
+      currentChallenge,
+      challengesList,
+      currentDate,
+    );
     expect(result).toBeNull();
   });
   test('Should return current task with its status by the challenge id', () => {
@@ -54,18 +54,28 @@ describe('getCurrentTask - main functionality', () => {
         updated: new Date('November 3, 2020 00:00:00'),
       },
     };
-    const actualResult = getCurrentTask(currentChallengeId, challengesList, currentDate);
+    const actualResult = getCurrentTask(
+      currentChallengeId,
+      challengesList,
+      currentDate,
+    );
     expect(actualResult).toEqual(expectedResult);
   });
 });
-
 
 describe('getTaskArchive - main functionality', () => {
   test('Should return all past tasks with their results by the challenge id', () => {
     const challengeId = '1';
     const dateNow = new Date('November 3, 2020 00:00:00');
     const expectedResult = [
-      { "id": "1", "description": "Go to bed before 11:00 PM", status: { state: 'success', updated: new Date('November 2, 2020 00:00:00') } }
+      {
+        id: '1',
+        description: 'Go to bed before 11:00 PM',
+        status: {
+          state: 'success',
+          updated: new Date('November 2, 2020 00:00:00'),
+        },
+      },
     ];
     const actualResult = getTaskArchive(challengeId, challengesList, dateNow);
     expect(actualResult).toEqual(expectedResult);

@@ -9,6 +9,6 @@ export interface Challenge {
   startDate: Date;
   tasksOrder: Record<string, Task>;
   tasksStatus: Record<string, Status>;
-  achievements: Achievement[],
+  achievements: Achievement[];
   achievementsStatus: Record<string, Status>;
 }
