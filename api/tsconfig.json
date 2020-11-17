@@ -3,7 +3,8 @@
   "compilerOptions": {
     "baseUrl": "./",
     "outDir": "build",                          /* Redirect output structure to the directory. */
-    "rootDir": "./"
+    "rootDir": "./",
+    "target": "es2015"
   },
   "typedocOptions": {
     "mode": "modules",
