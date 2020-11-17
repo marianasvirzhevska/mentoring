@@ -8,8 +8,9 @@ import {
   Status,
 } from './interfaces';
 import { ChallengeState, StatusState } from './constants';
+import { getRandomOrders } from './utils/getRandomOrders';
 
-const REQUIRED_ACHIEVEMENTS_ID = ['4', '5']; // Should be selected for every challenge
+const REQUIRED_ACHIEVEMENTS = ['3', '4']; // Should be selected for every challenge
 
 export function getDayOfChallenge(startDate: Date, currentDate: Date): number {
   if (Number(currentDate) < Number(startDate)) {
@@ -20,22 +21,6 @@ export function getDayOfChallenge(startDate: Date, currentDate: Date): number {
   const differenceMs = Math.abs(Number(startDate) - Number(currentDate));
 
   return Math.round(differenceMs / ONE_DAY);
-}
-
-export function getRandomInt(number: number): number {
-  return Math.floor(Math.random() * number) + 1;
-}
-
-export function getRandomOrders(value: number): number[] {
-  const random: number[] = [];
-  while (random.length < value) {
-    const int = getRandomInt(value);
-    if (!random.includes(int)) {
-      random.push(int);
-    }
-  }
-
-  return random;
 }
 
 export function getCurrentTask(
@@ -125,36 +110,31 @@ export function startNewChallenge(
   duration = 30,
   achievements = duration / 6,
 ): Challenge {
-  const tasksOrder: Record<string, Task> = getRandomOrders(duration).reduce(
-    (accumulator, current: number) => {
-      accumulator[tasks[current].id] = tasks[current];
-      return accumulator;
-    },
-    {},
-  );
-
+  const randomTasksOrder = getRandomOrders(duration);
+  const tasksOrder: Record<string, Task> = {};
   const tasksStatus: Record<string, Status> = {};
 
-  for (const key in tasksOrder) {
-    tasksStatus[key] = {
+  randomTasksOrder.forEach((element: number, index: number) => {
+    tasksOrder[element] = tasks[index];
+    tasksStatus[element] = {
       state: StatusState.PENDING,
       updated: new Date(),
     };
-  }
+  });
 
-  const randomAchQty = achievements - REQUIRED_ACHIEVEMENTS_ID.length;
+  const randomAchQty = achievements - REQUIRED_ACHIEVEMENTS.length;
   const challengeAchievements: Achievement[] = getRandomOrders(
     randomAchQty,
   ).map((element: number) => {
     return achievementsList[element];
   });
-  REQUIRED_ACHIEVEMENTS_ID.forEach((element) =>
+  REQUIRED_ACHIEVEMENTS.forEach((element: string) =>
     challengeAchievements.push(achievementsList[element]),
   );
 
   const achievementsStatus: Record<
-    string,
-    Status
+  string,
+  Status
   > = challengeAchievements.reduce((accumulator, current: Achievement) => {
     accumulator[current.id] = {
       state: StatusState.PENDING,
