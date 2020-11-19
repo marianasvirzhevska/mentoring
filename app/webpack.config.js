@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable no-undef */
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -61,13 +63,13 @@ module.exports = {
   },
   optimization: optimization(),
   devServer: {
-    // contentBase: path.join(__dirname, 'dist'),
+    contentBase: path.resolve(__dirname, 'src'),
     host: 'localhost',
-    contentBase: './dist',
+    watchContentBase: true,
     port: 9000,
     hot: dev,
-    open: true,
-    openPage: '',
+    // open: true,
+    // openPage: '',
   },
   plugins: [
     new HtmlWebpackPlugin({
