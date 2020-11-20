@@ -1,4 +1,4 @@
-import { getRandomInt } from '../utils/getRandomInt';
+import { getRandomInt } from '../utils';
 
 describe('getRandomInt - main functionality', () => {
   test('Should return only integers', () => {

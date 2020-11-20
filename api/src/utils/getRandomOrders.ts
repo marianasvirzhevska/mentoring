@@ -1,13 +1,7 @@
-import { getRandomInt } from './getRandomInt';
-
-export function getRandomOrders(value: number): number[] {
-  const random: number[] = [];
-  while (random.length < value) {
-    const int = getRandomInt(value);
-    if (!random.includes(int)) {
-      random.push(int);
-    }
-  }
+export const getRandomOrders = (value: number): number[] => {
+  const random: number[] = [...new Array(value).keys()]
+    .sort(() => Math.random() - 0.5)
+    .splice(0, value);
 
   return random;
-}
+};

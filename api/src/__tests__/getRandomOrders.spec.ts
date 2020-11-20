@@ -1,4 +1,4 @@
-import { getRandomOrders } from '../utils/getRandomOrders';
+import { getRandomOrders } from '../utils';
 
 describe('getRandomOrders - main functionality', () => {
   test('Should return an array', () => {

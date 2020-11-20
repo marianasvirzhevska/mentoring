@@ -106,6 +106,16 @@ export const achievements = [
   { id: '3', description: "Complete 2 Monday's tasks", image: '' },
   { id: '4', description: 'Complete half of the tasks', image: '' },
   { id: '5', description: 'Complete all tasks', image: '' },
+  { id: '6', description: 'Complete 3 tasks before 6:00 AM', image: '' },
+  { id: '7', description: 'Complete each task 5 days in a row', image: '' },
+  { id: '8', description: 'Complete each task 15 days in a row', image: '' },
+  { id: '9', description: 'Complete each task 20 days in a row', image: '' },
+  { id: '10', description: 'Complete 4 Friday tasks', image: '' },
+  {
+    id: '11',
+    description: 'Complete 3 task before 10:00 AM in a row',
+    image: '',
+  },
 ];
 
 export const achievementsStatus = achievements.reduce(
