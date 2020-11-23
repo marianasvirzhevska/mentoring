@@ -3,6 +3,7 @@ import { ArchiveItem, Challenge, Task } from 'src/interfaces';
 import { getCurrentTask, getTaskArchive } from '../api';
 import { errorHandler } from '../utils/errorHandler';
 import { SERVER_UNEXPECTED_ERROR } from '../constants/messages';
+import { tasksJobs } from '../jobs/tasksJobs';
 
 const router = express.Router();
 
@@ -24,6 +25,8 @@ router.get('/task', (request: Request, response: Response) => {
     });
     response.end();
   }
+
+  tasksJobs(challenge_id, [] as Challenge[], currentTask.id);
 });
 
 router.get('/task-archive', (request: Request, response: Response) => {

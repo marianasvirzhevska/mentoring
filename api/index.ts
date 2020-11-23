@@ -6,7 +6,8 @@ import socketIo from 'socket.io';
 import challengeRouter from './src/routes/challenges';
 import tasksRouter from './src/routes/tasks';
 import achievementsRouter from './src/routes/achievements';
-import { getCurrentTask } from 'src/api';
+import { updateTaskStatus, calculateAchievementsStatus } from './src/api';
+import { Achievement, Challenge, Status } from './src/interfaces';
 
 const port = 5000;
 const app = express();
@@ -34,12 +35,23 @@ const io = new socketIo.Server(server, {
 
 io.on('connect', (socket) => {
   console.log('socket.io connected');
-  socket.emit('massage', { many: 'Hello' });
-  socket.on('another event', (data) => {
-    if (data.completed) {
-      getCurrentTask();
-    }
+
+  let achStatus: Record<string, Status> | null = null;
+  socket.on('mark task completed', (data) => {
+    const { challengeId, currentTaskId, completed } = data;
+    const taskStatus: Record<string, Status> = updateTaskStatus(
+      challengeId,
+      [] as Challenge[],
+      currentTaskId,
+      completed,
+    );
+
+    achStatus = calculateAchievementsStatus([] as Achievement[], taskStatus);
   });
+
+  if (achStatus) {
+    socket.emit('update achievements', { achievements: achStatus });
+  }
 });
 
 app.use(bodyParser.json());
