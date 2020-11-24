@@ -9,26 +9,23 @@ const socketIo = io(domain);
 
 socketIo.on('connect', () => {
   console.log('socket.io connected');
-  socketIo.on('massage', (data) => {
-    console.log('Socket connected', data);
-  });
 });
 
 function clickComplete(): void {
   const button = document.createElement('button');
   button.innerText = 'Mark as Completed';
-  button.addEventListener('click', function (e) {
-    socketIo.emit('another event', { completed: true, id: 20 });
+  button.addEventListener('click', function () {
+    socketIo.emit('mark task completed', {
+      challengeId: '1',
+      currentTaskId: '2',
+      completed: true,
+    });
   });
   document.body.appendChild(button);
 }
 
 clickComplete();
 
-function printHelloWorld(): void {
-  const greeting = document.createTextNode('Hello World!');
-
-  document.body.appendChild(greeting);
-}
-
-printHelloWorld();
+socketIo.on('update achievements', (data) => {
+  console.log('achievements', data.achievements);
+});

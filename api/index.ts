@@ -3,6 +3,7 @@ import express from 'express';
 import http from 'http';
 import bodyParser from 'body-parser';
 import socketIo from 'socket.io';
+import cors from 'cors';
 import challengeRouter from './src/routes/challenges';
 import tasksRouter from './src/routes/tasks';
 import achievementsRouter from './src/routes/achievements';
@@ -12,17 +13,7 @@ import { Achievement, Challenge, Status } from './src/interfaces';
 const port = 5000;
 const app = express();
 
-app.use(function (request, response, next) {
-  console.log(request.headers);
-  response.header('Access-Control-Allow-Origin', '*');
-  response.header('Access-Control-Allow-Headers', 'X-Requested-With');
-  response.header('Access-Control-Allow-Headers', 'Content-Type');
-  response.header(
-    'Access-Control-Allow-Methods',
-    'PUT, GET, POST, DELETE, OPTIONS',
-  );
-  next();
-});
+app.use(cors());
 
 const server = http.createServer(app);
 
@@ -49,7 +40,7 @@ io.on('connect', (socket) => {
     achStatus = calculateAchievementsStatus([] as Achievement[], taskStatus);
   });
 
-  if (achStatus) {
+  if (!achStatus) {
     socket.emit('update achievements', { achievements: achStatus });
   }
 });

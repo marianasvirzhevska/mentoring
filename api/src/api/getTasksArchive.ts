@@ -4,7 +4,6 @@ import { StatusState } from '../constants';
 export const getTaskArchive = (
   challengeId: string,
   allChallenges: Challenge[],
-  // dateNow: Date, // to avoid date dependence on tests
 ): ArchiveItem[] | null => {
   const challenge: Challenge = allChallenges.find(
     (challenge) => challenge.id === challengeId,

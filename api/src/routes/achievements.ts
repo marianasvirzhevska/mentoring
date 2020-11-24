@@ -1,13 +1,13 @@
 import express, { Request, Response } from 'express';
 import { Achievement, Challenge } from 'src/interfaces';
 import { getAchievements } from '../api';
-import { errorHandler } from '../utils/errorHandler';
+import { errorHandler } from '../utils';
 import { SERVER_UNEXPECTED_ERROR } from '../constants/messages';
 
 const router = express.Router();
 
 router.get('/achievements', (request: Request, response: Response) => {
-  const challenge_id = request.body.challenge_id;
+  const { challenge_id } = request.body;
   const achievements: Achievement[] = getAchievements(
     challenge_id,
     [] as Challenge[],
@@ -17,7 +17,7 @@ router.get('/achievements', (request: Request, response: Response) => {
     errorHandler(SERVER_UNEXPECTED_ERROR, response, null);
   } else {
     response.json({
-      status: 'OK',
+      status: 200,
       challenge: achievements,
     });
     response.end();
