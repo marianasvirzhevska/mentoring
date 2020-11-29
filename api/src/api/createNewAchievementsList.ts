@@ -7,11 +7,11 @@ export const createNewAchievementsList = (
 ): Achievement[] => {
   const randomAchievQty = achievementQty - requiredAchievIds.length;
   const requiredAchievements: Achievement[] = allAchievements.filter(
-    ({ id }: Achievement) => requiredAchievIds.includes(id),
+    ({ _id }: Achievement) => requiredAchievIds.includes(_id),
   );
 
   const randomAchievements: Achievement[] = allAchievements
-    .filter(({ id }: Achievement) => !requiredAchievIds.includes(id))
+    .filter(({ _id }: Achievement) => !requiredAchievIds.includes(_id))
     .sort(() => Math.random() - 0.5)
     .splice(0, randomAchievQty);
 

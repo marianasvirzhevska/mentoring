@@ -8,8 +8,8 @@ export const calculateAchievementsStatus = (
   // Random check completed
   const mockAchievementsList = achievementsList.reduce(
     (accumulator, current: Achievement) => {
-      accumulator[current.id] = {
-        [current.id]: {
+      accumulator[current._id] = {
+        [current._id]: {
           state:
             Math.random() <= 0.5 ? StatusState.SUCCESS : StatusState.FAILURE,
           updated: new Date(),
@@ -24,7 +24,7 @@ export const calculateAchievementsStatus = (
   // TODO: Remove mockAchievementsList and use actual
   const actual = achievementsList.reduce(
     (accumulator, current: Achievement) => {
-      accumulator[current.id] = current.checkComplete(tasksStatus);
+      accumulator[current._id] = current.checkComplete(tasksStatus);
 
       return accumulator;
     },

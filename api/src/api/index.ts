@@ -5,3 +5,5 @@ export * from './getTasksArchive';
 export * from './startNewChallenge';
 export * from './createNewAchievementsList';
 export * from './updateTaskStatus';
+export * from './startScript';
+export * from './clearDB';

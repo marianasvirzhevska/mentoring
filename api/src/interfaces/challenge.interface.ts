@@ -4,7 +4,7 @@ import { Achievement } from './achievement.interface';
 import { ChallengeState } from '../constants';
 
 export interface Challenge {
-  id: string;
+  _id: string;
   state: ChallengeState;
   startDate: Date;
   tasksOrder: Record<string, Task>;

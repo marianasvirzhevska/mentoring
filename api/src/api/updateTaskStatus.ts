@@ -8,7 +8,7 @@ export const updateTaskStatus = (
   completed?: boolean,
 ): Record<string, Status> => {
   const currentChallenge: Challenge = allChallenges.find(
-    (challenge) => challenge.id === challengeId,
+    (challenge) => challenge._id === challengeId,
   );
 
   if (!currentChallenge) {

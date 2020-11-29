@@ -5,7 +5,7 @@ export const getAchievements = (
   allChallenges: Challenge[],
 ): ActualAchievement[] | null => {
   const currentChallenge: Challenge = allChallenges.find(
-    (challenge) => challenge.id === challengeId,
+    (challenge) => challenge._id === challengeId,
   );
 
   if (!currentChallenge) {
@@ -13,11 +13,11 @@ export const getAchievements = (
   }
 
   const achievements: ActualAchievement[] = currentChallenge.achievements.map(
-    ({ id, description, image }: Achievement) => ({
-      id,
+    ({ _id, description, image }: Achievement) => ({
+      _id,
       description,
       image,
-      status: currentChallenge.achievementsStatus[id],
+      status: currentChallenge.achievementsStatus[_id],
     }),
   );
 

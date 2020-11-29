@@ -7,7 +7,7 @@ export const getCurrentTask = (
   currentDate: Date = new Date(), // to avoid date dependence on tests
 ): ActualTask | null => {
   const currentChallenge: Challenge = allChallenges.find(
-    (challenge) => challenge.id === challengeId,
+    (challenge) => challenge._id === challengeId,
   );
 
   if (!currentChallenge) {
@@ -19,7 +19,7 @@ export const getCurrentTask = (
     currentDate,
   );
   const task: Task = currentChallenge.tasksOrder[dayOfChallenge.toString()];
-  const status: Status = currentChallenge.tasksStatus[task.id];
+  const status: Status = currentChallenge.tasksStatus[task._id];
 
   return {
     ...task,

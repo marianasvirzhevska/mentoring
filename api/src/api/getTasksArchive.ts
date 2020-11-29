@@ -6,7 +6,7 @@ export const getTaskArchive = (
   allChallenges: Challenge[],
 ): ArchiveItem[] | null => {
   const challenge: Challenge = allChallenges.find(
-    (challenge) => challenge.id === challengeId,
+    (challenge) => challenge._id === challengeId,
   );
 
   if (!challenge) {

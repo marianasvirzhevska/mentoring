@@ -4,7 +4,7 @@
     "baseUrl": "./",
     "outDir": "build",                          /* Redirect output structure to the directory. */
     "rootDir": "./",
-    "target": "es2015"
+    "target": "es6"
   },
   "typedocOptions": {
     "mode": "modules",

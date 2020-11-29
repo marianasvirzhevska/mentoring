@@ -43,7 +43,7 @@ export const startNewChallenge = (
 
   const achievementsStatus: Record<string, Status> = achievements.reduce(
     (accumulator, current: Achievement) => {
-      accumulator[current.id] = {
+      accumulator[current._id] = {
         state: StatusState.PENDING,
         updated: new Date(),
       };
@@ -53,7 +53,7 @@ export const startNewChallenge = (
   );
 
   const challenge: Challenge = {
-    id: Date.now().toString(),
+    _id: Date.now().toString(),
     state: ChallengeState.PROGRESS,
     startDate: new Date(),
     tasksOrder,
