@@ -1,8 +1,6 @@
 import express, { Request, Response } from 'express';
 import { Challenge } from 'src/interfaces';
 import { startNewChallenge } from '../api';
-/* import { tasks } from '../tasks.json';
-import { achievements } from '../achievements.json'; */
 import { errorHandler } from '../utils/errorHandler';
 import {
   SERVER_UNEXPECTED_ERROR,
@@ -11,28 +9,43 @@ import {
 import { tasksJobs } from '../jobs/tasksJobs';
 import { achievementsJob } from '../jobs/achievementsJob';
 import AchvModel from '../models/achievement.model';
+import TaskModel from '../models/task.model';
+import ChallengeModel from '../models/challenge.model';
 
 const router = express.Router();
 
-router.get('/new-challenge', (request: Request, response: Response) => {
-  console.log(`request ${JSON.stringify(request.headers.authorization)}`);
-  /*const tasks = TaskModel.getTasks()  */
-  const achievements = AchvModel.getAchievements();
-  const newChallenge: Challenge = startNewChallenge(tasks, achievements, 5);
+router.get('/new-challenge', async (request: Request, response: Response) => {
+  console.log(`request ${JSON.stringify(request.headers.authorization)}`); // TODO: Add auth gard
 
-  if (!newChallenge) {
-    errorHandler(SERVER_UNEXPECTED_ERROR, response, null);
-  } else {
-    response.json({
-      status: 200,
-      message: CHALLENGE_SUCCESSFULLY_CREATED,
-      challenge: newChallenge._id,
-    });
-    response.end();
-  }
+  const tasks = await TaskModel.find({});
+  const achievements = await AchvModel.find({});
+  const newChallenge: Omit<Challenge, '_id'> = startNewChallenge(
+    tasks,
+    achievements,
+    30,
+    5,
+  );
 
-  tasksJobs(newChallenge._id); // schedule auto expiration for each task in new challenge
-  achievementsJob(newChallenge._id); // schedule achievements status calculation at the end of challenge
+  const databaseChallenge = new ChallengeModel(newChallenge);
+
+  databaseChallenge.save((error) => {
+    if (error) {
+      errorHandler(SERVER_UNEXPECTED_ERROR, response, error);
+      throw error;
+    } else {
+      response.json({
+        status: 200,
+        message: CHALLENGE_SUCCESSFULLY_CREATED,
+        challenge: databaseChallenge,
+        challenge_1: newChallenge,
+      });
+
+      tasksJobs(databaseChallenge._id); // schedule auto expiration for each task in new challenge
+      achievementsJob(databaseChallenge._id); // schedule achievements status calculation at the end of challenge
+
+      response.end();
+    }
+  });
 });
 
 export default router;

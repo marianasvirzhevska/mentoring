@@ -10,10 +10,9 @@ import tasksRouter from './src/routes/tasks';
 import achievementsRouter from './src/routes/achievements';
 import { updateTaskStatus, calculateAchievementsStatus } from './src/api';
 import { Achievement, Challenge, Status } from './src/interfaces';
-import { startScript } from './src/api';
 
-const port = 5000;
-const databaseUrl = 'mongodb://localhost:27017/challenge-app';
+const port = 5000; // TODO: move to env.config
+const databaseUrl = 'mongodb://localhost:27017/challenge-app'; // TODO: move to env.config
 const app = express();
 
 app.use(cors());
@@ -30,7 +29,7 @@ mongoose
 
 const io = new socketIo.Server(server, {
   cors: {
-    origin: 'http://localhost:9000',
+    origin: 'http://localhost:9000', // TODO: move url to env.config
     credentials: true,
   },
 });
@@ -55,8 +54,6 @@ io.on('connect', (socket) => {
     socket.emit('update achievements', { achievements: achStatus });
   }
 });
-
-startScript(); // add initial value and default user
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

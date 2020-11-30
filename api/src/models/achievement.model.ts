@@ -1,18 +1,9 @@
 import { Schema, Document, Model, model } from 'mongoose';
 import { Achievement as IAchievement } from 'src/interfaces';
 
-export interface achvDocument extends IAchievement, Document {
-  _id: string;
+export interface achvDocument extends Omit<IAchievement, '_id'>, Document {
   getAchievements(): Promise<IAchievement[]>;
 }
-
-/* export interface Achievement extends Model<AchvDocument> {
-  comparePassword(password: string): boolean;
-} */
-
-/* export interface IUserModel extends Model<IUser> {
-  hashPassword(password: string): string;
-} */
 
 export const achvSchema: Schema = new Schema({
   description: {
@@ -25,17 +16,12 @@ export const achvSchema: Schema = new Schema({
   },
 });
 
-/* achvSchema.methods.getAchievements = function (): Promise<achvDocument[]> {
+achvSchema.statics.getAchievements = function (): Promise<achvDocument[]> {
   return this.find({});
-}; */
+};
 
-achvSchema.method('getAchievements', function (): Promise<achvDocument[]> {
-  return this.find({});
-});
+export interface achvModel extends Model<achvDocument> {
+  getAchievements(): Promise<achvDocument[]>;
+}
 
-export const AchvModel: Model<achvDocument> = model<achvDocument>(
-  'Achievement',
-  achvSchema,
-);
-
-export default AchvModel;
+export default model<achvDocument, achvModel>('achievement', achvSchema);

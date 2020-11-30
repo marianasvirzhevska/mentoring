@@ -1,7 +1,12 @@
 import bcrypt from 'bcrypt';
-import { AchievementModel, TaskModel, UserModel } from '../models';
+import mongoose from 'mongoose';
+import { UserModel } from '../models';
+import AchievementModel from '../models/achievement.model';
+import TaskModel from '../models/task.model';
 import { achievements } from '../achievements.json';
 import { tasks } from '../tasks.json';
+
+const databaseUrl = 'mongodb://localhost:27017/challenge-app'; // TODO: move to env.config
 
 const setInitialAchievements = (): void => {
   try {
@@ -50,8 +55,16 @@ const setInitialUser = (): void => {
   });
 };
 
-export const startScript = (): void => {
+const startScript = (): void => {
   setInitialAchievements();
   setInitialTasks();
   setInitialUser();
 };
+
+mongoose
+  .connect(databaseUrl, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => startScript())
+  .catch((error) => console.error('Error. MongoDB not connected.', error));

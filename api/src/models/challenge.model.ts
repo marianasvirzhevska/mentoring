@@ -1,17 +1,12 @@
-import { Schema, Document, Model, model } from 'mongoose';
+import { Schema, Document, Model, model, Types } from 'mongoose';
 import { ChallengeState, StatusState } from '../constants';
 import { Challenge } from '../interfaces';
-import { AchvModel } from './achievement.model';
 
-export interface ChallengeModel extends Challenge, Document {
-  _id: string;
+export interface ChallengeDocument extends Omit<Challenge, '_id'>, Document {
+  /*   _id: string; */
 }
 
 const challengeSchema: Schema = new Schema({
-  _id: {
-    type: String,
-    required: true,
-  },
   state: {
     type: ChallengeState,
     required: true,
@@ -22,39 +17,44 @@ const challengeSchema: Schema = new Schema({
     required: true,
     default: new Date(),
   },
-  tasksOrder: [
-    {
-      name: String,
-      values: Schema.Types.Mixed,
-    },
-  ],
-  tasksStatus: [
-    {
-      name: String,
-      values: Schema.Types.Mixed,
-    },
-  ],
+  tasksOrder: {
+    type: Map,
+    of: Schema.Types.Mixed,
+  },
+  tasksStatus: {
+    type: Map,
+    of: Schema.Types.Mixed,
+  },
   achievements: [
     {
-      type: AchvModel,
+      type: Schema.Types.Mixed,
     },
   ],
+  achievementsStatus: {
+    type: Map,
+    of: Schema.Types.Mixed,
+  },
 });
 
 challengeSchema.methods.findChallenge = function (
   query: string,
-): Promise<ChallengeModel> {
+): Promise<ChallengeDocument> {
   return this.find(query);
 };
 
 challengeSchema.methods.updateChallenge = function (
-  challengeId: string,
+  _id: string,
   document,
-): Promise<ChallengeModel> {
-  return this.updateOne({ id: challengeId }, { $set: document });
+): Promise<ChallengeDocument> {
+  return this.updateOne({ _id: new Types.ObjectId(_id) }, { $set: document });
 };
 
-export const ChallengeModel: Model<ChallengeModel> = model<ChallengeModel>(
-  'Challenge',
+export interface challengeModel extends Model<ChallengeDocument> {
+  findChallenge(): Promise<ChallengeDocument>;
+  updateChallenge(): Promise<ChallengeDocument>;
+}
+
+export default model<ChallengeDocument, challengeModel>(
+  'challenge',
   challengeSchema,
 );

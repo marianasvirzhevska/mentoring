@@ -11,9 +11,10 @@
     "test": "jest",
     "lint": "eslint .",
     "build": "tsc",
+    "db:seed": "ts-node src/api/startScript.ts",
+    "db:drop": "mongo challenge-app --eval 'db.dropDatabase()'",
     "build:live": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' index.ts",
-    "docs": "./node_modules/.bin/typedoc --out dist/docs --mode modules",
-    "drop-db": "'ts-node' src/api/clearDB.ts"
+    "docs": "./node_modules/.bin/typedoc --out dist/docs --mode modules"
   },
   "repository": {
     "type": "git",

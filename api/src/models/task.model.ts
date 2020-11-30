@@ -1,8 +1,8 @@
 import { Schema, Document, Model, model } from 'mongoose';
 import { Task } from '../interfaces';
 
-export interface taskModel extends Task, Document {
-  _id: string;
+export interface taskDocument extends Omit<Task, '_id'>, Document {
+  /* _id: string; */
   getTasks(): Promise<Task[]>;
 }
 
@@ -13,8 +13,12 @@ export const taskSchema: Schema = new Schema({
   },
 });
 
-taskSchema.methods.getTasks = async function (): Promise<taskModel[]> {
-  return await this.find({});
+taskSchema.methods.getTasks = function (): Promise<taskDocument[]> {
+  return this.find({});
 };
 
-export const TaskModel: Model<taskModel> = model<taskModel>('Task', taskSchema);
+export interface taskModel extends Model<taskDocument> {
+  getTasks(): Promise<taskDocument[]>;
+}
+
+export default model<taskDocument, taskModel>('task', taskSchema);

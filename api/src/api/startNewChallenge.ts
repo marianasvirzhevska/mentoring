@@ -13,7 +13,7 @@ export const startNewChallenge = (
   achievementsList: Achievement[],
   challengeDuration = DEFAULT_CHALLENGE_DURATION,
   achievementsPerChallenge = DEFAULT_ACHIEVEMENTS_QUANTITY,
-): Challenge => {
+): Omit<Challenge, '_id'> => {
   const randomTasksOrder = getRandomOrders(challengeDuration);
 
   const tasksOrder: Record<string, Task> = randomTasksOrder.reduce(
@@ -52,8 +52,7 @@ export const startNewChallenge = (
     {},
   );
 
-  const challenge: Challenge = {
-    _id: Date.now().toString(),
+  const challenge: Omit<Challenge, '_id'> = {
     state: ChallengeState.PROGRESS,
     startDate: new Date(),
     tasksOrder,
