@@ -4,7 +4,7 @@ import { getDayOfChallenge } from '../utils/getDayOfChallenge';
 export const getCurrentTask = (
   challengeId: string,
   allChallenges: Challenge[],
-  currentDate: Date, // to avoid date dependence on tests
+  currentDate: Date = new Date(), // to avoid date dependence on tests
 ): ActualTask | null => {
   const currentChallenge: Challenge = allChallenges.find(
     (challenge) => challenge.id === challengeId,

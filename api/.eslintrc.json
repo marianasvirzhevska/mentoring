@@ -49,6 +49,9 @@
               }
           }
       ],
-      "@typescript-eslint/no-empty-function": ["error", { "allow": ["constructors"] }]
+      "@typescript-eslint/no-empty-function": ["error", { "allow": ["constructors"] }],
+      "unicorn/no-null": "off",
+      "unicorn/no-reduce": "off",
+      "unicorn/filename-case": "off"
     }
   }
