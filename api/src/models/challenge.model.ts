@@ -2,9 +2,7 @@ import { Schema, Document, Model, model, Types } from 'mongoose';
 import { ChallengeState, StatusState } from '../constants';
 import { Challenge } from '../interfaces';
 
-export interface ChallengeDocument extends Omit<Challenge, '_id'>, Document {
-  /*   _id: string; */
-}
+export interface ChallengeDocument extends Omit<Challenge, '_id'>, Document {}
 
 const challengeSchema: Schema = new Schema({
   state: {

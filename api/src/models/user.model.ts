@@ -1,10 +1,9 @@
-/* eslint-disable @typescript-eslint/no-this-alias */
 import { Schema, Document, Model, model } from 'mongoose';
 import bcrypt from 'bcrypt';
 import { User } from '../interfaces';
 
-export interface userModel extends User, Document {
-  isValidPassword(): boolean;
+export interface userDocument extends User, Document {
+  isValidPassword(password: string): boolean;
 }
 
 const userSchema: Schema = new Schema({
@@ -14,19 +13,21 @@ const userSchema: Schema = new Schema({
   password: { type: String, required: true },
 });
 
-userSchema.pre<userModel>('save', async function (next) {
-  const user = this;
-  const hash = await bcrypt.hash(user.password, 10);
+userSchema.pre<userDocument>('save', async function (next) {
+  const hash = await bcrypt.hash(this.password, 10);
 
-  user.password = hash;
+  this.password = hash;
   next();
 });
 
 userSchema.methods.isValidPassword = async function (password: string) {
-  const user = this;
-  const compare = await bcrypt.compare(password, user.password);
+  const compare = await bcrypt.compare(password, this.password);
 
   return compare;
 };
 
-export const UserModel: Model<userModel> = model<userModel>('User', userSchema);
+export interface userModel extends Model<userDocument> {
+  getTasks(): Promise<userDocument[]>;
+}
+
+export default model<userDocument, userModel>('user', userSchema);

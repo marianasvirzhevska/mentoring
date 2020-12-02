@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import { Task, ArchiveItem, Challenge } from 'src/interfaces';
+import { Task, ArchiveItem, Challenge } from '../interfaces';
 import { getCurrentTask, getTaskArchive } from '../api';
 import { errorHandler } from '../utils/errorHandler';
 import { SERVER_UNEXPECTED_ERROR } from '../constants/messages';

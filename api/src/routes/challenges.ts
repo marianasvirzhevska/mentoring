@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import { Challenge } from 'src/interfaces';
+import { Challenge, Achievement } from '../interfaces';
 import { startNewChallenge } from '../api';
 import { errorHandler } from '../utils/errorHandler';
 import {
@@ -8,20 +8,25 @@ import {
 } from '../constants/messages';
 import { tasksJobs } from '../jobs/tasksJobs';
 import { achievementsJob } from '../jobs/achievementsJob';
-import AchvModel from '../models/achievement.model';
+//import AchvModel from '../models/achievement.model';
 import TaskModel from '../models/task.model';
 import ChallengeModel from '../models/challenge.model';
 
 const router = express.Router();
 
 router.get('/new-challenge', async (request: Request, response: Response) => {
+  response.json({
+    message: 'You made it to the secure route',
+    token: request.query.secret_token,
+  });
+
   console.log(`request ${JSON.stringify(request.headers.authorization)}`); // TODO: Add auth gard
 
   const tasks = await TaskModel.find({});
-  const achievements = await AchvModel.find({});
+  //const achievements = await AchvModel.find({});
   const newChallenge: Omit<Challenge, '_id'> = startNewChallenge(
     tasks,
-    achievements,
+    [] as Achievement[],
     30,
     5,
   );

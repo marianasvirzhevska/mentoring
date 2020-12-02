@@ -4,32 +4,47 @@ import http from 'http';
 import bodyParser from 'body-parser';
 import socketIo from 'socket.io';
 import cors from 'cors';
-import mongoose from 'mongoose';
+import config from 'config';
+import passport from 'passport';
+import cookieParser from 'cookie-parser';
+
+import { databaseConnect } from './src/db/connect';
 import challengeRouter from './src/routes/challenges';
 import tasksRouter from './src/routes/tasks';
 import achievementsRouter from './src/routes/achievements';
-import { updateTaskStatus, calculateAchievementsStatus } from './src/api';
+import loginRouter from './src/routes/login';
+import {
+  updateTaskStatus,
+  calculateAchievementsStatus,
+  setupPassport,
+} from './src/api';
 import { Achievement, Challenge, Status } from './src/interfaces';
+import { passportMiddleware } from './src/middleware/auth';
 
-const port = 5000; // TODO: move to env.config
-const databaseUrl = 'mongodb://localhost:27017/challenge-app'; // TODO: move to env.config
+const { url } = config.get('clientConfig');
+const { port: serverPort } = config.get('serverConfig');
+
+databaseConnect();
+
 const app = express();
-
 app.use(cors());
 
-const server = http.createServer(app);
+app.use(cookieParser());
+app.use(passport.initialize());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
 
-mongoose
-  .connect(databaseUrl, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log('MongoDB connected'))
-  .catch((error) => console.error('Error. MongoDB not connected.', error));
+/* app.use(passport.initialize());
+app.use(passport.session()); */
+
+passportMiddleware();
+setupPassport();
+const server = http.createServer(app);
 
 const io = new socketIo.Server(server, {
   cors: {
-    origin: 'http://localhost:9000', // TODO: move url to env.config
+    origin: url,
     credentials: true,
   },
 });
@@ -55,11 +70,16 @@ io.on('connect', (socket) => {
   }
 });
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(
+  '/user',
+  passport.authenticate('jwt', { session: false }),
+  challengeRouter,
+);
 
-app.use(express.json());
-app.use(challengeRouter);
+/* app.use(challengeRouter); */
 app.use(tasksRouter);
 app.use(achievementsRouter);
-server.listen(port, () => console.log(`Server is running on port: ${port}`));
+app.use(loginRouter);
+server.listen(serverPort, () =>
+  console.log(`Server is running on port: ${serverPort}`),
+);

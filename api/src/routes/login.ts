@@ -1,15 +1,16 @@
 import express, { Request, Response, NextFunction } from 'express';
 import passport from 'passport';
 import jwt from 'jsonwebtoken';
+import config from 'config';
 
 const router = express.Router();
 
 router.post(
   '/login',
   async (request: Request, response: Response, next: NextFunction) => {
-    passport.authenticate('login', async (error, user, info) => {
+    passport.authenticate('login', async (error, user) => {
       try {
-        if (error || !user) {
+        if (error) {
           const error = new Error('An error occurred.');
 
           return next(error);
@@ -24,8 +25,9 @@ router.post(
             firstName: user.firstName,
             lastName: user.lastName,
           };
-          const token = jwt.sign({ user: body }, 'TOP_SECRET'); // TODO: move secret to env config
 
+          const secret = config.get('secret');
+          const token = jwt.sign({ user: body }, secret);
           return response.json({ token });
         });
       } catch (error) {

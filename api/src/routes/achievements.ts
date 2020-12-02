@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import { Achievement, Challenge } from 'src/interfaces';
+import { Achievement, Challenge } from '../interfaces';
 import { getAchievements } from '../api';
 import { errorHandler } from '../utils';
 import { SERVER_UNEXPECTED_ERROR } from '../constants/messages';

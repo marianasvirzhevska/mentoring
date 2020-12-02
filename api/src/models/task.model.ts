@@ -2,7 +2,6 @@ import { Schema, Document, Model, model } from 'mongoose';
 import { Task } from '../interfaces';
 
 export interface taskDocument extends Omit<Task, '_id'>, Document {
-  /* _id: string; */
   getTasks(): Promise<Task[]>;
 }
 
