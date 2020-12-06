@@ -6,9 +6,12 @@ import { SERVER_UNEXPECTED_ERROR } from '../constants/messages';
 
 const router = express.Router();
 
-router.get('/task', (request: Request, response: Response) => {
+export const getCurrentTaskRoute = async (
+  request: Request,
+  response: Response,
+): Promise<void> => {
   const { challenge_id } = request.body;
-  const currentTask: Task = getCurrentTask(challenge_id, [] as Challenge[]);
+  const currentTask: Task = await getCurrentTask(challenge_id);
 
   if (!currentTask) {
     errorHandler(SERVER_UNEXPECTED_ERROR, response, null);
@@ -19,7 +22,7 @@ router.get('/task', (request: Request, response: Response) => {
     });
     response.end();
   }
-});
+};
 
 router.get('/task-archive', (request: Request, response: Response) => {
   const challenge_id = request.body.challenge_id;

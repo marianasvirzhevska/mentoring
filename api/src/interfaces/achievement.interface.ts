@@ -4,5 +4,5 @@ export interface Achievement {
   _id: string;
   description: string;
   image: string;
-  checkComplete?: (taskStatus: Record<string, Status>) => Status;
+  checkComplete?: (taskStatus: Map<string, Status>) => Status;
 }

@@ -4,7 +4,7 @@ export function errorHandler(
   message: string,
   response: Response,
   // eslint-disable-next-line @typescript-eslint/ban-types
-  error: Object | string,
+  error?: Object | string,
   code = 500,
 ): void {
   if (error) {

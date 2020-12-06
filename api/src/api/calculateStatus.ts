@@ -3,32 +3,32 @@ import { StatusState } from '../constants';
 
 export const calculateAchievementsStatus = (
   achievementsList: Achievement[],
-  tasksStatus: Record<string, Status>,
-): Record<string, Status> => {
+  tasksStatus: Map<string, Status>,
+): Map<string, Status> => {
   // Random check completed
   const mockAchievementsList = achievementsList.reduce(
     (accumulator, current: Achievement) => {
-      accumulator[current._id] = {
+      accumulator.set(current._id, {
         [current._id]: {
           state:
             Math.random() <= 0.5 ? StatusState.SUCCESS : StatusState.FAILURE,
           updated: new Date(),
         },
-      };
+      });
 
       return accumulator;
     },
-    {},
+    new Map(),
   );
 
   // TODO: Remove mockAchievementsList and use actual
   const actual = achievementsList.reduce(
     (accumulator, current: Achievement) => {
-      accumulator[current._id] = current.checkComplete(tasksStatus);
+      accumulator.set(current._id, current.checkComplete(tasksStatus));
 
       return accumulator;
     },
-    {},
+    new Map(),
   );
 
   console.log(actual);

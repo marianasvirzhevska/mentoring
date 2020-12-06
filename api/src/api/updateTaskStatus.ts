@@ -6,7 +6,7 @@ export const updateTaskStatus = (
   allChallenges: Challenge[],
   taskId: string,
   completed?: boolean,
-): Record<string, Status> => {
+): Map<string, Status> => {
   const currentChallenge: Challenge = allChallenges.find(
     (challenge) => challenge._id === challengeId,
   );
@@ -17,13 +17,13 @@ export const updateTaskStatus = (
 
   const { tasksStatus } = currentChallenge;
 
-  const newTasksStatus: Record<string, Status> = {
+  const newTasksStatus: Map<string, Status> = new Map({
     ...tasksStatus,
     [taskId]: {
       state: completed ? StatusState.SUCCESS : StatusState.FAILURE,
       updated: new Date(),
     },
-  };
+  });
 
   return newTasksStatus;
 };

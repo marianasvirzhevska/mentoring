@@ -13,7 +13,7 @@ export const achievementsJob = (
     console.log(challengeId); // for future implementation with DB
     return calculateAchievementsStatus(
       [] as Achievement[],
-      {} as Record<string, Status>,
+      {} as Map<string, Status>,
     );
   };
 

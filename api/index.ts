@@ -9,8 +9,8 @@ import passport from 'passport';
 import cookieParser from 'cookie-parser';
 
 import { databaseConnect } from './src/db/connect';
-import challengeRouter from './src/routes/challenges';
-import tasksRouter from './src/routes/tasks';
+import { challengeRouter } from './src/routes/challenges';
+import { getCurrentTaskRoute as getCurrentTask } from './src/routes/tasks';
 import achievementsRouter from './src/routes/achievements';
 import loginRouter from './src/routes/login';
 import {
@@ -35,9 +35,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 
-/* app.use(passport.initialize());
-app.use(passport.session()); */
-
 passportMiddleware();
 setupPassport();
 const server = http.createServer(app);
@@ -52,10 +49,10 @@ const io = new socketIo.Server(server, {
 io.on('connect', (socket) => {
   console.log('socket.io connected');
 
-  let achStatus: Record<string, Status> | null = null;
+  let achStatus: Map<string, Status> | null = null;
   socket.on('mark task completed', (data) => {
     const { challengeId, currentTaskId, completed } = data;
-    const taskStatus: Record<string, Status> = updateTaskStatus(
+    const taskStatus: Map<string, Status> = updateTaskStatus(
       challengeId,
       [] as Challenge[],
       currentTaskId,
@@ -71,13 +68,19 @@ io.on('connect', (socket) => {
 });
 
 app.use(
-  '/user',
+  '/new-challenge',
   passport.authenticate('jwt', { session: false }),
-  challengeRouter,
+  async (request, response) => challengeRouter(request, response),
+);
+
+app.use(
+  '/task',
+  passport.authenticate('jwt', { session: false }),
+  async (request, response) => getCurrentTask(request, response),
 );
 
 /* app.use(challengeRouter); */
-app.use(tasksRouter);
+// app.use(tasksRouter);
 app.use(achievementsRouter);
 app.use(loginRouter);
 server.listen(serverPort, () =>

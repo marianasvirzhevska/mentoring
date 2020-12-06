@@ -2,22 +2,16 @@ import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
 import { Strategy as JWTStrategy, ExtractJwt } from 'passport-jwt';
 import config from 'config';
-import UserModel, { userDocument } from '../models/user.model';
-import { USER_NOT_FOUND, WRONG_PASSWORD } from '../constants/messages';
+import UserModel from '../models/user.model';
+import {
+  USER_NOT_FOUND,
+  WRONG_PASSWORD,
+  LOGGED_IN_SUCCESS_MESSAGE,
+} from '../constants/messages';
 
 const secret = config.get('secret');
 
 export const setupPassport = (): void => {
-  passport.serializeUser((user: userDocument, done) => {
-    done(null, user._id);
-  });
-
-  passport.deserializeUser(function (id, done) {
-    UserModel.findById(id, function (error, user) {
-      done(error, user);
-    });
-  });
-
   passport.use(
     'login',
     new LocalStrategy(
@@ -27,20 +21,21 @@ export const setupPassport = (): void => {
       },
       async (email: string, password: string, done): Promise<void> => {
         try {
-          const user: userDocument = await UserModel.findOne({ email });
-          const isPasswordValid: boolean = await user.isValidPassword(password);
+          const user = await UserModel.findOne({ email });
 
           if (!user) {
             return done(null, false, { message: USER_NOT_FOUND });
           }
 
-          if (!isPasswordValid) {
+          const validate = await user.isValidPassword(password);
+
+          if (!validate) {
             return done(null, false, { message: WRONG_PASSWORD });
           }
 
-          return done(null, user);
+          return done(null, user, { message: LOGGED_IN_SUCCESS_MESSAGE });
         } catch (error) {
-          done(error);
+          return done(error);
         }
       },
     ),

@@ -1,4 +1,3 @@
-import bcrypt from 'bcrypt';
 import UserModel from '../models/user.model';
 import AchievementModel from '../models/achievement.model';
 import TaskModel from '../models/task.model';
@@ -33,23 +32,13 @@ const setInitialUser = (): void => {
   };
 
   const databaseUser = new UserModel(defaultUser);
-
-  bcrypt.hash(defaultUser.password, 10, (error, hash) => {
-    databaseUser.password = hash;
-
+  databaseUser.save((error) => {
     if (error) {
-      console.error('Error occurred. Try again later', error);
+      console.error(error);
       return;
     }
 
-    databaseUser.save((error) => {
-      if (error) {
-        console.error(error);
-        return;
-      }
-
-      console.log('Default user was successfully stored.', defaultUser);
-    });
+    console.log('Default user was successfully stored.', defaultUser);
   });
 };
 
