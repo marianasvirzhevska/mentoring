@@ -9,8 +9,8 @@ import passport from 'passport';
 import cookieParser from 'cookie-parser';
 
 import { databaseConnect } from './src/db/connect';
-import { challengeRouter } from './src/routes/challenges';
-import { getCurrentTaskRoute as getCurrentTask } from './src/routes/tasks';
+import challengeRouter from './src/routes/challenges';
+import tasksRouter from './src/routes/tasks';
 import achievementsRouter from './src/routes/achievements';
 import loginRouter from './src/routes/login';
 import {
@@ -67,20 +67,8 @@ io.on('connect', (socket) => {
   }
 });
 
-app.use(
-  '/new-challenge',
-  passport.authenticate('jwt', { session: false }),
-  async (request, response) => challengeRouter(request, response),
-);
-
-app.use(
-  '/task',
-  passport.authenticate('jwt', { session: false }),
-  async (request, response) => getCurrentTask(request, response),
-);
-
-/* app.use(challengeRouter); */
-// app.use(tasksRouter);
+app.use(challengeRouter);
+app.use(tasksRouter);
 app.use(achievementsRouter);
 app.use(loginRouter);
 server.listen(serverPort, () =>

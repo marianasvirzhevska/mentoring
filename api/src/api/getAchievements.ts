@@ -1,23 +1,23 @@
-import { Challenge, ActualAchievement, Achievement } from '../interfaces';
+import { ActualAchievement, Achievement } from '../interfaces';
+import ChallengeModel, { ChallengeDocument } from '../models/challenge.model';
 
-export const getAchievements = (
+export const getAchievements = async (
   challengeId: string,
-  allChallenges: Challenge[],
-): ActualAchievement[] | null => {
-  const currentChallenge: Challenge = allChallenges.find(
-    (challenge) => challenge._id === challengeId,
+): Promise<ActualAchievement[] | null> => {
+  const challenge: ChallengeDocument = await ChallengeModel.findById(
+    challengeId,
   );
 
-  if (!currentChallenge) {
+  if (!challenge) {
     return null;
   }
 
-  const achievements: ActualAchievement[] = currentChallenge.achievements.map(
+  const achievements: ActualAchievement[] = challenge.achievements.map(
     ({ _id, description, image }: Achievement) => ({
       _id,
       description,
       image,
-      status: currentChallenge.achievementsStatus[_id],
+      status: challenge.achievementsStatus.get(_id),
     }),
   );
 

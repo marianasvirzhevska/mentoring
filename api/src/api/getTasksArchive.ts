@@ -1,12 +1,12 @@
-import { Challenge, ArchiveItem } from '../interfaces';
+import { ArchiveItem, Task } from '../interfaces';
 import { StatusState } from '../constants';
+import ChallengeModel, { ChallengeDocument } from '../models/challenge.model';
 
-export const getTaskArchive = (
+export const getTaskArchive = async (
   challengeId: string,
-  allChallenges: Challenge[],
-): ArchiveItem[] | null => {
-  const challenge: Challenge = allChallenges.find(
-    (challenge) => challenge._id === challengeId,
+): Promise<ArchiveItem[] | null> => {
+  const challenge: ChallengeDocument = await ChallengeModel.findById(
+    challengeId,
   );
 
   if (!challenge) {
@@ -16,11 +16,13 @@ export const getTaskArchive = (
   const pastTasks: ArchiveItem[] = [];
 
   for (const key in challenge.tasksStatus) {
-    const value = challenge.tasksStatus[key];
+    const value = challenge.tasksStatus.get(key);
 
     if (value.state !== StatusState.PENDING) {
+      const task: Task = challenge.tasksOrder.get(key);
       const pastTask: ArchiveItem = {
-        ...challenge.tasksOrder[key],
+        _id: task._id,
+        description: task.description,
         status: value,
       };
 

@@ -10,7 +10,6 @@ export const getCurrentTask = async (
     challengeId,
   );
 
-  console.log(challengeId);
   if (!challenge) {
     return null;
   }
