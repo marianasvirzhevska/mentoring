@@ -1,5 +1,5 @@
 import { ActualTask, Task, Status } from '../interfaces';
-import { getDayOfChallenge } from '../utils/getDayOfChallenge';
+import { getDayOfChallenge } from '../utils';
 import ChallengeModel, { ChallengeDocument } from '../models/challenge.model';
 
 export const getCurrentTask = async (
@@ -19,8 +19,10 @@ export const getCurrentTask = async (
     currentDate,
   );
 
-  const task: Task = challenge.tasksOrder.get(`${dayOfChallenge + 1}`);
-  const status: Status = challenge.tasksStatus[task._id];
+  const index = `${dayOfChallenge + 1}`;
+
+  const task: Task = challenge.tasksOrder.get(index);
+  const status: Status = challenge.tasksStatus.get(index);
 
   return {
     ...task,

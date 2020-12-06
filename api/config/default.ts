@@ -11,7 +11,7 @@ export default {
     host: '127.0.0.1',
   },
   clientConfig: {
-    url: 'http://localhost:9000/',
+    url: 'http://localhost:9000',
   },
   secret: 'TOP_SECRET',
 };

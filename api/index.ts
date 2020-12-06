@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 import express from 'express';
 import http from 'http';
 import bodyParser from 'body-parser';
@@ -9,19 +8,20 @@ import passport from 'passport';
 import cookieParser from 'cookie-parser';
 
 import { databaseConnect } from './src/db/connect';
-import challengeRouter from './src/routes/challenges';
+import { router1 as challengeRouter } from './src/routes/challenges';
 import tasksRouter from './src/routes/tasks';
 import achievementsRouter from './src/routes/achievements';
 import loginRouter from './src/routes/login';
 import {
-  updateTaskStatus,
-  calculateAchievementsStatus,
+  //updateTaskStatus,
+  //calculateAchievementsStatus,
   setupPassport,
+  //setupSocket,
 } from './src/api';
-import { Achievement, Challenge, Status } from './src/interfaces';
+//import { Achievement, Challenge, Status } from './src/interfaces';
 import { passportMiddleware } from './src/middleware/auth';
 
-const { url } = config.get('clientConfig');
+const url: string = config.get('clientConfig.url');
 const { port: serverPort } = config.get('serverConfig');
 
 databaseConnect();
@@ -37,9 +37,10 @@ app.use(express.json());
 
 passportMiddleware();
 setupPassport();
-const server = http.createServer(app);
 
-const io = new socketIo.Server(server, {
+const server: http.Server = http.createServer(app);
+
+const io: socketIo.Server = new socketIo.Server(server, {
   cors: {
     origin: url,
     credentials: true,
@@ -48,26 +49,12 @@ const io = new socketIo.Server(server, {
 
 io.on('connect', (socket) => {
   console.log('socket.io connected');
-
-  let achStatus: Map<string, Status> | null = null;
-  socket.on('mark task completed', (data) => {
-    const { challengeId, currentTaskId, completed } = data;
-    const taskStatus: Map<string, Status> = updateTaskStatus(
-      challengeId,
-      [] as Challenge[],
-      currentTaskId,
-      completed,
-    );
-
-    achStatus = calculateAchievementsStatus([] as Achievement[], taskStatus);
+  socket.on('mark task completed', function (data) {
+    console.log(data);
   });
-
-  if (!achStatus) {
-    socket.emit('update achievements', { achievements: achStatus });
-  }
 });
 
-app.use(challengeRouter);
+app.use(challengeRouter(io));
 app.use(tasksRouter);
 app.use(achievementsRouter);
 app.use(loginRouter);

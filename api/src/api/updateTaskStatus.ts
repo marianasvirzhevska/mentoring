@@ -1,28 +1,46 @@
+import { Types } from 'mongoose';
+import socketIo from 'socket.io';
+import { Status } from '../interfaces';
 import { StatusState } from '../constants';
-import { Challenge, Status } from '../interfaces';
+import { getDayOfChallenge } from '../utils';
+import ChallengeModel, { ChallengeDocument } from '../models/challenge.model';
 
-export const updateTaskStatus = (
+export const updateTaskStatus = async (
   challengeId: string,
-  allChallenges: Challenge[],
-  taskId: string,
   completed?: boolean,
-): Map<string, Status> => {
-  const currentChallenge: Challenge = allChallenges.find(
-    (challenge) => challenge._id === challengeId,
+  io?: socketIo.Server,
+): Promise<Map<string, Status>> => {
+  const challenge: ChallengeDocument = await ChallengeModel.findById(
+    challengeId,
   );
 
-  if (!currentChallenge) {
+  if (!challenge) {
     return null;
   }
 
-  const { tasksStatus } = currentChallenge;
+  const { tasksStatus } = challenge;
+  const dayOfChallenge: number = getDayOfChallenge(challenge.startDate);
+  const index = `${dayOfChallenge + 1}`;
+  const newState = completed ? StatusState.SUCCESS : StatusState.FAILURE;
 
   const newTasksStatus: Map<string, Status> = new Map({
     ...tasksStatus,
-    [taskId]: {
-      state: completed ? StatusState.SUCCESS : StatusState.FAILURE,
+    [index]: {
+      state: newState,
       updated: new Date(),
     },
+  });
+
+  const update = await ChallengeModel.updateOne(
+    { _id: new Types.ObjectId(challengeId) },
+    { tasksStatus },
+  );
+
+  console.log(update);
+
+  io.emit('update task status', {
+    taskIndex: index,
+    message: `Task status was updated to ${newState}`,
   });
 
   return newTasksStatus;
