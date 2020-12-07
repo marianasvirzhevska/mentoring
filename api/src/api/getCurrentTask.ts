@@ -1,25 +1,28 @@
-import { Challenge, ActualTask, Task, Status } from '../interfaces';
-import { getDayOfChallenge } from '../utils/getDayOfChallenge';
+import { ActualTask, Task, Status } from '../interfaces';
+import { getDayOfChallenge } from '../utils';
+import ChallengeModel, { ChallengeDocument } from '../models/challenge.model';
 
-export const getCurrentTask = (
+export const getCurrentTask = async (
   challengeId: string,
-  allChallenges: Challenge[],
   currentDate: Date = new Date(), // to avoid date dependence on tests
-): ActualTask | null => {
-  const currentChallenge: Challenge = allChallenges.find(
-    (challenge) => challenge.id === challengeId,
+): Promise<ActualTask | null> => {
+  const challenge: ChallengeDocument = await ChallengeModel.findById(
+    challengeId,
   );
 
-  if (!currentChallenge) {
+  if (!challenge) {
     return null;
   }
 
   const dayOfChallenge: number = getDayOfChallenge(
-    currentChallenge.startDate,
+    challenge.startDate,
     currentDate,
   );
-  const task: Task = currentChallenge.tasksOrder[dayOfChallenge.toString()];
-  const status: Status = currentChallenge.tasksStatus[task.id];
+
+  const index = `${dayOfChallenge + 1}`;
+
+  const task: Task = challenge.tasksOrder.get(index);
+  const status: Status = challenge.tasksStatus.get(index);
 
   return {
     ...task,

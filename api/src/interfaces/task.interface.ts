@@ -1,4 +1,4 @@
 export interface Task {
-  id: string;
+  _id: string;
   description: string;
 }

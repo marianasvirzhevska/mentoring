@@ -2,7 +2,7 @@ import { ONE_DAY } from '../constants';
 
 export const getDayOfChallenge = (
   startDate: Date,
-  currentDate: Date,
+  currentDate: Date = new Date(),
 ): number => {
   if (Number(currentDate) < Number(startDate)) {
     return;

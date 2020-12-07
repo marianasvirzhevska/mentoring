@@ -13,26 +13,26 @@ export const startNewChallenge = (
   achievementsList: Achievement[],
   challengeDuration = DEFAULT_CHALLENGE_DURATION,
   achievementsPerChallenge = DEFAULT_ACHIEVEMENTS_QUANTITY,
-): Challenge => {
+): Omit<Challenge, '_id'> => {
   const randomTasksOrder = getRandomOrders(challengeDuration);
 
-  const tasksOrder: Record<string, Task> = randomTasksOrder.reduce(
+  const tasksOrder: Map<string, Task> = randomTasksOrder.reduce(
     (accumulator, current: number, index: number) => {
-      accumulator[current] = tasks[index];
+      accumulator.set(`${index + 1}`, tasks[current]);
       return accumulator;
     },
-    {},
+    new Map(),
   );
 
-  const tasksStatus: Record<string, Status> = randomTasksOrder.reduce(
+  const tasksStatus: Map<string, Status> = randomTasksOrder.reduce(
     (accumulator, current: number) => {
-      accumulator[current] = {
+      accumulator.set(`${current + 1}`, {
         state: StatusState.PENDING,
         updated: new Date(),
-      };
+      });
       return accumulator;
     },
-    {},
+    new Map(),
   );
 
   const achievements: Achievement[] = createNewAchievementsList(
@@ -41,19 +41,19 @@ export const startNewChallenge = (
     achievementsPerChallenge,
   );
 
-  const achievementsStatus: Record<string, Status> = achievements.reduce(
+  const achievementsStatus: Map<string, Status> = achievements.reduce(
     (accumulator, current: Achievement) => {
-      accumulator[current.id] = {
+      const key = current._id.toString();
+      accumulator.set(key, {
         state: StatusState.PENDING,
         updated: new Date(),
-      };
+      });
       return accumulator;
     },
-    {},
+    new Map(),
   );
 
-  const challenge: Challenge = {
-    id: Date.now().toString(),
+  const challenge: Omit<Challenge, '_id'> = {
     state: ChallengeState.PROGRESS,
     startDate: new Date(),
     tasksOrder,

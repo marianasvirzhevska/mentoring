@@ -2,16 +2,24 @@ import { Achievement } from '../interfaces';
 
 export const createNewAchievementsList = (
   allAchievements: Achievement[],
-  requiredAchievIds: string[],
+  requiredAchv: Omit<Achievement, '_id'>[],
   achievementQty: number,
 ): Achievement[] => {
-  const randomAchievQty = achievementQty - requiredAchievIds.length;
+  const randomAchievQty = achievementQty - requiredAchv.length;
   const requiredAchievements: Achievement[] = allAchievements.filter(
-    ({ id }: Achievement) => requiredAchievIds.includes(id),
+    ({ description }: Achievement) =>
+      requiredAchv.find(
+        (element: Achievement) => description === element.description,
+      ),
   );
 
   const randomAchievements: Achievement[] = allAchievements
-    .filter(({ id }: Achievement) => !requiredAchievIds.includes(id))
+    .filter(
+      ({ description }: Achievement) =>
+        !requiredAchv.find(
+          (element: Achievement) => description === element.description,
+        ),
+    )
     .sort(() => Math.random() - 0.5)
     .splice(0, randomAchievQty);
 
