@@ -6,3 +6,4 @@ export * from './startNewChallenge';
 export * from './createNewAchievementsList';
 export * from './updateTaskStatus';
 export * from './setupPassport';
+export * from './socketIo';

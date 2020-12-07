@@ -6,3 +6,4 @@ export const DEFAULT_CHALLENGE_DURATION = 30;
 export const DEFAULT_ACHIEVEMENTS_QUANTITY = DEFAULT_CHALLENGE_DURATION / 6;
 export const ONE_DAY = 1000 * 60 * 60 * 24;
 export const SALT_ROUNDS = 10;
+export const AUTHENTICATION_ERROR = 'Authentication error';
