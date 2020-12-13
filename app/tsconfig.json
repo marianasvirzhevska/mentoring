@@ -1,8 +1,25 @@
 {
-    "extends": "../tsconfig.base.json",
-    "compilerOptions": {
-      "baseUrl": "./",
-      "outDir": "build",                          /* Redirect output structure to the directory. */
-      "rootDir": "./",
-    }
+  "compilerOptions": {
+    "lib": ["es6", "dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "strictNullChecks": true,
+    "noEmit": true,
+    "jsx": "react"
+  },
+  "include": ["src", "./custom.d.ts"],
+  "plugins": [
+    "html"
+  ],
+  "settings": {
+    "html/indent": "tab",
   }
+}

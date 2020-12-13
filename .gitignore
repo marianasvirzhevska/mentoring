@@ -17,3 +17,6 @@ npm-debug.log
 
 # local config
 local.ts
+
+# css types files
+*.scss.d.ts

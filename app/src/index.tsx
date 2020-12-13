@@ -1,7 +1,9 @@
-// import { io } from 'socket.io-client';
+// import * as io from 'socket.io-client';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const io = require('socket.io-client');
 
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 import './index.scss';
 
 const domain = 'http://localhost:5000';
@@ -26,6 +28,12 @@ function clickComplete(): void {
 
 clickComplete();
 
-socketIo.on('update achievements', (data) => {
+socketIo.on('update achievements', (data: any) => {
   console.log('achievements', data.achievements);
 });
+
+function App() {
+  return <div>Hello!</div>;
+}
+
+ReactDOM.render(<App />, document.getElementById('root'));
