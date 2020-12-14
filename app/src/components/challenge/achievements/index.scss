@@ -1,0 +1,25 @@
+@import '@styles/constants';
+
+.achievementsContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.achievementItem {
+    flex: auto;
+    margin: 20px 0;
+}
+
+.achievementDescription {
+    text-align: center;
+    color: gray;
+}
+
+.achievementImage {
+    width: 100px;
+    height: 100px;
+    background: rgb(224, 139, 224);
+    border-radius: 100%;
+    margin-bottom: 15px;
+}

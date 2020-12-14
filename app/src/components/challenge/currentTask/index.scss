@@ -1,0 +1,22 @@
+@import '@styles/constants';
+
+.currentTask {
+    width: 100%;
+    margin: 10px 0;
+    display: flex;
+}
+
+.taskStatus {
+    margin-right:  30px;
+}
+
+.taskDescription {
+    color: grey;
+}
+
+.taskUpdated {
+    font-weight: 200;
+    margin-left: 30px;
+}
+
+

@@ -9,10 +9,10 @@ const ESLintPlugin = require('eslint-webpack-plugin');
 const path = require('path');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
-const dev = process.env.NODE_ENV === 'development';
+const prod = process.env.NODE_ENV === 'production';
 
 const optimization = () => {
-  if (dev) {
+  if (!prod) {
     return { minimize: false };
   }
 
@@ -27,7 +27,9 @@ module.exports = {
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
     alias: {
-      '@': path.resolve(__dirname, 'src'),
+      '@src': path.resolve(__dirname, 'src'),
+      '@styles': path.resolve(__dirname, 'src/styles'),
+      '@common': path.resolve(__dirname, 'src/components/common'),
     },
   },
   output: {
@@ -74,8 +76,11 @@ module.exports = {
   },
   devServer: {
     contentBase: path.join(__dirname, 'build'),
-    compress: true,
+    historyApiFallback: true,
+    compress: prod,
     port: 4000,
+    openPage: '',
+    hot: true,
   },
   optimization: optimization(),
   plugins: [
@@ -89,8 +94,10 @@ module.exports = {
       favicon: './src/favicon.ico',
       template: path.join(__dirname, 'src', 'index.html'),
       minify: {
-        collapseWhitespace: !dev,
+        collapseWhitespace: prod,
       },
+      filename: 'index.html',
+      inject: 'body',
     }),
     new CleanWebpackPlugin(),
     new CopyWebpackPlugin({

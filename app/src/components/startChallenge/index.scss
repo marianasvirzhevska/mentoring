@@ -1,0 +1,19 @@
+@import '@styles/constants';
+
+.root {
+    height: 100%;
+    min-height: 100vh;
+    text-align: center;
+}
+
+.title {
+    font-size: $titleFont;
+}
+
+.subtitle {
+    font-size: $subTitle;
+}
+
+.buttonCover {
+    margin: 20px auto;
+}

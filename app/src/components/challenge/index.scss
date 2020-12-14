@@ -1,0 +1,22 @@
+@import '@styles/constants';
+
+.root {
+    height: 100%;
+    min-height: 100vh;
+}
+
+.greeting {
+    margin: 10px 0;
+    color: grey;
+}
+
+.subTitle {
+    margin: 10px 0;
+    font-weight: 500;
+    font-size: $subTitle;
+}
+
+.archiveLink {
+    margin: 20px 0;
+    color: rgb(78, 207, 78);
+}

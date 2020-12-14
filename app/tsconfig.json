@@ -13,7 +13,13 @@
     "noImplicitThis": true,
     "strictNullChecks": true,
     "noEmit": true,
-    "jsx": "react"
+    "jsx": "react",
+    "baseUrl": "scr",
+    "paths": {
+      "@src": ["scr/*"],
+      "@styles": ["scr/styles/*"],
+      "@common": ["scr/components/common/*"]
+    },
   },
   "include": ["src", "./custom.d.ts"],
   "plugins": [

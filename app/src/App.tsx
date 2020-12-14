@@ -6,13 +6,17 @@ import { Provider } from 'react-redux';
 import store from './store/index';
 import theme from './muiTheme';
 
-import { Login } from './components/login';
+import Login from './components/login';
+import StartScreen from './components/startScreen';
+import Challenge from './components/challenge';
 
 const App: React.FC = () => {
   return (
     <Router>
       <Switch>
         <Route path="/login" component={Login} />
+        <Route path="/challenge" component={Challenge} />
+        <Route path="*" component={StartScreen} />
       </Switch>
     </Router>
   );

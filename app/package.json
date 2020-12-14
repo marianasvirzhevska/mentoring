@@ -7,7 +7,7 @@
     "test": "jest",
     "lint": "eslint .",
     "build": "cross-env ./node_modules/.bin/webpack --mode production",
-    "start": "webpack serve"
+    "start": "webpack --mode development serve"
   },
   "repository": {
     "type": "git",
@@ -19,7 +19,7 @@
     "Program",
     "TypeScript",
     "ESLint",
-    "Prittier",
+    "Prettier",
     "Jest",
     "Pre-Commit",
     "Hook"
@@ -52,6 +52,7 @@
     "@typescript-eslint/eslint-plugin": "^4.5.0",
     "@typescript-eslint/parser": "^4.5.0",
     "babel-loader": "^8.2.2",
+    "classnames": "^2.2.6",
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^6.4.0",
     "cross-env": "^7.0.2",
@@ -82,6 +83,7 @@
     "ts-jest": "^26.4.2",
     "ts-loader": "^8.0.7",
     "ts-node": "^9.1.1",
+    "typesafe-actions": "^5.1.0",
     "typescript": "^4.0.3",
     "url-loader": "^4.1.1",
     "webpack": "^5.10.0",
