@@ -9,13 +9,15 @@ import styles from './index.scss';
 const Challenge: React.FC = () => {
   return (
     <div className={styles.root}>
-      <p className={styles.greeting}>Greetings traveller!</p>
-      <h1 className={styles.subTitle}>Current Challenge</h1>
-      <CurrentTask />
-      <Link to="tasks-archive" className={styles.archiveLink}>
-        Tasks archive
-      </Link>
-      <Achievements />
+      <div className={styles.container}>
+        <p className={styles.greeting}>Greetings traveller!</p>
+        <h1 className={styles.subTitle}>Current Challenge</h1>
+        <CurrentTask />
+        <Link to="/tasks-archive" className={styles.archiveLink}>
+          Tasks archive
+        </Link>
+        <Achievements />
+      </div>
     </div>
   );
 };

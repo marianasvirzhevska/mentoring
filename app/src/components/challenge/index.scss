@@ -5,6 +5,12 @@
     min-height: 100vh;
 }
 
+.container {
+    width: 100%;
+    max-width: 1024px;
+    margin: 0 auto;
+}
+
 .greeting {
     margin: 10px 0;
     color: grey;
