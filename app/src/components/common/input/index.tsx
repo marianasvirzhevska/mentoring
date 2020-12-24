@@ -1,20 +1,27 @@
+/* eslint-disable @typescript-eslint/indent */
+/* eslint-disable prettier/prettier */
 import React from 'react';
 
 import styles from './index.scss';
 
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+type NativeInputProps = React.DetailedHTMLProps<
+    React.InputHTMLAttributes<HTMLInputElement>,
+    HTMLInputElement
+  >
+interface InputProps {
   label: string;
   name: string;
   disabled?: boolean;
   error?: string;
+  passProps?: NativeInputProps;
 }
 
 const Input: React.FC<InputProps> = ({
+  passProps,
   label,
   name,
   error,
   disabled,
-  ...rest
 }) => {
   return (
     <div className={styles.root}>
@@ -22,9 +29,13 @@ const Input: React.FC<InputProps> = ({
         <p>{label}</p>
         <div className={styles.cover}>
           {disabled ? (
-            <input {...rest} id={name} disabled />
+            <input
+              {...passProps}
+              id={name}
+              disabled
+            />
           ) : (
-            <input {...rest} id={name} />
+            <input {...passProps} id={name} />
           )}
         </div>
         {error && <div className={styles.error}>{error}</div>}

@@ -10,6 +10,7 @@ const path = require('path');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 const prod = process.env.NODE_ENV === 'production';
+const apiUrl = 'http://localhost:5000';
 
 const optimization = () => {
   if (!prod) {
@@ -81,6 +82,12 @@ module.exports = {
     port: 4000,
     openPage: '',
     hot: true,
+    proxy: {
+      '/api': {
+        target: apiUrl,
+        changeOrigin: true,
+      },
+    },
   },
   optimization: optimization(),
   plugins: [

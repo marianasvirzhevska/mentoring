@@ -1,10 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import ThemeProvider from '@material-ui/styles/ThemeProvider';
-import { Provider } from 'react-redux';
 
-import store from './store/index';
 import theme from './muiTheme';
+import PrivateRoute from './components/privateRoute';
 
 import Login from './components/login';
 import StartScreen from './components/startScreen';
@@ -16,8 +15,12 @@ const App: React.FC = () => {
     <Router>
       <Switch>
         <Route path="/login" component={Login} />
-        <Route path="/challenge" component={Challenge} />
-        <Route path="/tasks-archive" component={TaskArchive} />
+        <PrivateRoute path="/challenge" component={Challenge} exact={true} />
+        <PrivateRoute
+          path="/tasks-archive"
+          component={TaskArchive}
+          exact={true}
+        />
         <Route path="*" component={StartScreen} />
       </Switch>
     </Router>
@@ -26,9 +29,7 @@ const App: React.FC = () => {
 
 const AppProvider: React.FC = () => (
   <ThemeProvider theme={theme}>
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <App />
   </ThemeProvider>
 );
 
