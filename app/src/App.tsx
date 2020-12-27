@@ -17,7 +17,7 @@ const App: React.FC = () => {
         <Route path="/login" component={Login} />
         <PrivateRoute path="/challenge" component={Challenge} exact={true} />
         <PrivateRoute
-          path="/tasks-archive"
+          path="/tasks-archive/:challenge_id"
           component={TaskArchive}
           exact={true}
         />

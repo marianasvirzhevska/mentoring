@@ -36,7 +36,7 @@ router.get(
 );
 
 router.get(
-  '/task-archive/:challenge_id',
+  '/api/task-archive/:challenge_id',
   passport.authenticate('jwt', { session: false }),
   async (request: Request, response: Response) => {
     const challenge_id = request.params.challenge_id;
