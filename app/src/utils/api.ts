@@ -21,7 +21,7 @@ export const request = (
 };
 
 function getUrlToken(): string | undefined {
-  const storageUser = localStorage.getItem('user');
+  const storageUser = localStorage.getItem('token');
   if (storageUser) {
     const user = JSON.parse(storageUser);
     return `?secret_token=${user}`;
@@ -34,7 +34,7 @@ export const requestWithToken = (
   url: string,
   method: string,
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  bodyParams: any,
+  bodyParams?: any,
 ): Promise<Response> => {
   const config = {
     method,

@@ -9,10 +9,10 @@ import ChallengeModel, { ChallengeDocument } from '../models/challenge.model';
 const router = express.Router();
 
 router.get(
-  '/task',
+  '/api/task/:challenge_id',
   passport.authenticate('jwt', { session: false }),
   async (request: Request, response: Response): Promise<void> => {
-    const { challenge_id } = request.body;
+    const challenge_id = request.params.challenge_id;
     const challenge: ChallengeDocument = await ChallengeModel.findById(
       challenge_id,
     );
@@ -36,10 +36,10 @@ router.get(
 );
 
 router.get(
-  '/task-archive',
+  '/task-archive/:challenge_id',
   passport.authenticate('jwt', { session: false }),
   async (request: Request, response: Response) => {
-    const { challenge_id } = request.body;
+    const challenge_id = request.params.challenge_id;
     const archivedTasks: ArchiveItem[] = await getTaskArchive(challenge_id);
 
     if (!archivedTasks) {

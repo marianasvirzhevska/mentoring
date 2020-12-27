@@ -8,7 +8,7 @@ import { SERVER_UNEXPECTED_ERROR } from '../constants/messages';
 const router = express.Router();
 
 router.get(
-  '/achievements',
+  '/api/achievements',
   passport.authenticate('jwt', { session: false }),
   async (request: Request, response: Response) => {
     const { challenge_id } = request.body;

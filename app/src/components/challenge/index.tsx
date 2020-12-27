@@ -1,25 +1,58 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom';
+import Button from '@material-ui/core/Button';
+import Typography from '@material-ui/core/Typography';
+import Container from '@material-ui/core/Container';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
-import CurrentTask from './currentTask';
-import Achievements from './achievements';
+import {
+  requestWithToken,
+  Methods,
+  getFromStorage,
+  setStorage,
+} from '../../utils';
+import { Challenge } from '../../interfaces';
+
+import { ChallengeComponent } from './challengeComponent';
 
 import styles from './index.scss';
 
-const Challenge: React.FC = () => {
+const ChallengePage: React.FC = () => {
+  const storedChallengeId = getFromStorage('challengeId');
+  const [challenge, setChallenge] = React.useState<Challenge | string | null>(
+    storedChallengeId,
+  );
+  const [loading, setLoading] = React.useState<boolean>(false);
+
+  const handleStart = (): void => {
+    setLoading(true);
+
+    requestWithToken('/api/new-challenge', Methods.GET)
+      .then((res) => res.json())
+      .then(({ challenge }) => {
+        setChallenge(challenge._id);
+        setStorage('challengeId', challenge._id);
+        setLoading(false);
+      })
+      .catch((error) => console.error(error));
+  };
+
   return (
     <div className={styles.root}>
-      <div className={styles.container}>
-        <p className={styles.greeting}>Greetings traveller!</p>
-        <h1 className={styles.subTitle}>Current Challenge</h1>
-        <CurrentTask />
-        <Link to="/tasks-archive" className={styles.archiveLink}>
-          Tasks archive
-        </Link>
-        <Achievements />
-      </div>
+      <Container maxWidth="sm">
+        <Typography variant="h4" component="h4">
+          Greetings traveller!
+        </Typography>
+        {loading && <CircularProgress />}
+        {challenge && !loading ? (
+          <ChallengeComponent challenge={challenge} />
+        ) : (
+          <Button variant="contained" color="primary" onClick={handleStart}>
+            Start
+          </Button>
+        )}
+      </Container>
     </div>
   );
 };
 
-export default Challenge;
+export default ChallengePage;

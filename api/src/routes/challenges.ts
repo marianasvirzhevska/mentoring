@@ -15,13 +15,13 @@ import { achievementsJob } from '../jobs/achievementsJob';
 import TaskModel from '../models/task.model';
 import UserModel from '../models/user.model';
 import AchvModel from '../models/achievement.model';
-import ChallengeModel from '../models/challenge.model';
+import ChallengeModel, { ChallengeDocument } from '../models/challenge.model';
 
 export const router1 = (io: socketIo.Server): express.Router => {
   const router: express.Router = express.Router();
 
   router.get(
-    '/new-challenge',
+    '/api/new-challenge',
     passport.authenticate('jwt', { session: false }),
     async (request: Request, response: Response): Promise<void> => {
       try {
@@ -53,6 +53,30 @@ export const router1 = (io: socketIo.Server): express.Router => {
 
         tasksJobs(databaseChallenge._id, io); // schedule auto expiration for each task in new challenge
         achievementsJob(databaseChallenge._id, io); // schedule achievements status calculation at the end of challenge
+      } catch (error) {
+        errorHandler(SERVER_UNEXPECTED_ERROR, response, error);
+        throw error;
+      }
+    },
+  );
+
+  router.get(
+    '/api/challenge/:challenge_id',
+    passport.authenticate('jwt', { session: false }),
+    async (request: Request, response: Response): Promise<void> => {
+      const challenge_id = request.params.challenge_id;
+
+      try {
+        const challenge: ChallengeDocument = await ChallengeModel.findById(
+          challenge_id,
+        );
+
+        response.json({
+          status: 200,
+          challenge: challenge,
+        });
+
+        response.end();
       } catch (error) {
         errorHandler(SERVER_UNEXPECTED_ERROR, response, error);
         throw error;
