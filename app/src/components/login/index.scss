@@ -1,0 +1,18 @@
+@import '@styles/constants';
+
+.authRoot {
+  height: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.formCover {
+   min-width: 340px;
+}
+
+.title {
+    text-align: center;
+    margin-bottom: 20px;
+}

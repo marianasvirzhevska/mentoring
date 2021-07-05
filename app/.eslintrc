@@ -3,7 +3,8 @@
     "parser": "@typescript-eslint/parser",
     "plugins": [
         "@typescript-eslint",
-        "prettier"
+        "prettier",
+        "html"
     ],
     "rules": {
         "no-unused-expressions": "error",
@@ -31,7 +32,8 @@
     },
     "env": {
         "es6": true,
-        "browser": true
+        "browser": true,
+        "commonjs": true
     },
     "extends": [
         "eslint:recommended",

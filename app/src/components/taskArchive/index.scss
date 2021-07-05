@@ -1,0 +1,40 @@
+@import '@styles/constants';
+
+.archiveRoot {
+    height: 100%;
+    min-height: 100vh;
+}
+
+.container {
+    width: 100%;
+    max-width: 1024px;
+    margin: 0 auto;
+}
+
+.title {
+    color: black;
+}
+
+.tasksList {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.taskItem {
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+
+    div {
+        margin-right: 20px;
+    }
+
+    p {
+        color: grey;
+    }
+}
+
+.arrowBack {
+    margin: 20px 0;
+}

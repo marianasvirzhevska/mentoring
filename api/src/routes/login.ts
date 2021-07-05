@@ -9,7 +9,7 @@ import { errorHandler } from '../utils/errorHandler';
 const router = express.Router();
 
 router.post(
-  '/login',
+  '/api/login',
   async (request: Request, response: Response, next: NextFunction) => {
     passport.authenticate('login', async (error, user, info) => {
       try {
